@@ -37,9 +37,9 @@ MAX_FILE_SIZE_MB = 4.5
 TARGET_WIDTH = 1080
 
 # --- HASHTAG STRATEGY ---
-TAGS_CHARACTER = ["#Makima", "#マキマ", "#MakimaChainsawMan"] 
-TAGS_SERIES = ["#ChainsawMan", "#CSM", "#チェンソーマン"]
-TAGS_NICHE = ["#AIArt", "#AIAnime", "#Waifu"]
+TAGS_CHARACTER = ["#makima", "#マキマ"] 
+TAGS_SERIES = ["#chainsawman", "#csm", "#チェンソーマン"]
+TAGS_NICHE = ["#AIArt", "#AIAnime", "#waifu"]
 
 # --- PERSONA ---
 SYSTEM_PROMPT = """

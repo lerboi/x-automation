@@ -1,4 +1,6 @@
 .env
 __pycache__/
 images/
+images_waifu/
+pinterest_images/
 postpone_upload.csv
