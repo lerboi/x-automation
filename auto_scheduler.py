@@ -13,10 +13,10 @@ from dotenv import load_dotenv
 load_dotenv()
 API_KEY = os.environ.get("API_KEY") 
 LINK_URL = "https://www.anione.me/en?ref_code=DailyMakima"
-IMAGES_FOLDER = "images"
-OUTPUT_CSV = "postpone_upload.csv"
-SEQUENCE_FILE = ".sequence_id"      
-DATE_TRACKER_FILE = ".last_date"    
+IMAGES_FOLDER = "images/makima"
+OUTPUT_CSV = "makima_data/outputs/postpone_upload.csv"
+SEQUENCE_FILE = "makima_data/.sequence_id"      
+DATE_TRACKER_FILE = "makima_data/.last_date"    
 PLATFORM_PREFIX = "twitter"
 
 # Account Name (No '@')

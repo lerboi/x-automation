@@ -10,10 +10,10 @@ from dotenv import load_dotenv
 load_dotenv()
 # Note: No API_KEY needed for this script! 
 LINK_URL = "https://www.anione.me/en?ref_code=DailyWaifu"
-IMAGES_FOLDER = "images_waifu"           # <--- UPDATED: Dedicated folder for safety
-OUTPUT_CSV = "postpone_upload_waifu.csv" # Different output name
-SEQUENCE_FILE = ".waifu_sequence_id"     # Unique tracker
-DATE_TRACKER_FILE = ".waifu_last_date"   # Unique tracker
+IMAGES_FOLDER = "images/waifu"           # <--- UPDATED: Dedicated folder for safety
+OUTPUT_CSV = "waifu_data/outputs/postpone_upload_waifu.csv" # Different output name
+SEQUENCE_FILE = "waifu_data/.sequence_id"     # Unique tracker
+DATE_TRACKER_FILE = "waifu_data/.last_date"   # Unique tracker
 PLATFORM_PREFIX = "twitter_waifu"        # Unique prefix so it doesn't touch Makima files
 
 # Account Handle

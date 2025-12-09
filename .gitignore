@@ -1,6 +1,7 @@
 .env
 __pycache__/
 images/
-images_waifu/
-pinterest_images/
-postpone_upload.csv
+makima_data/
+waifu_data/
+pinterest_data/
+watermark_data/

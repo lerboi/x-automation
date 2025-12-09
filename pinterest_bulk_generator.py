@@ -8,9 +8,9 @@ import string
 
 # --- CONFIGURATION ---
 LINK_URL_BASE = "https://www.anione.me/en?ref_code=pinterest"
-IMAGES_FOLDER = "pinterest_images"
-OUTPUT_CSV = "pinterest_bulk_upload_final.csv"
-TRACKER_FILE = ".pinterest_sent_log"
+IMAGES_FOLDER = "images/pinterest"
+OUTPUT_CSV = "pinterest_data/outputs/pinterest_bulk_upload_final.csv"
+TRACKER_FILE = "pinterest_data/.sent_log"
 
 # Schedule Settings
 PINS_PER_DAY = 3
