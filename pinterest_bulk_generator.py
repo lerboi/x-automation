@@ -7,9 +7,11 @@ import random
 import string
 
 # --- CONFIGURATION ---
-LINK_URL_BASE = "https://www.anione.me/en?ref_code=pinterest"
+# ⚠️ CHANGE THIS to your DeviantArt Profile for safety
+LINK_URL_BASE = "https://www.deviantart.com/waifudailyai" 
+
 IMAGES_FOLDER = "images/pinterest"
-OUTPUT_CSV = "pinterest_data/outputs/pinterest_bulk_upload_final.csv"
+OUTPUT_CSV = "pinterest_data/outputs/pinterest_bulk_upload_safe.csv"
 TRACKER_FILE = "pinterest_data/.sent_log"
 
 # Schedule Settings
@@ -17,15 +19,11 @@ PINS_PER_DAY = 3
 START_DATE = datetime.datetime.now() + datetime.timedelta(days=1)
 
 # 🇺🇸 US-OPTIMIZED HOURS (UTC)
-# Pinterest reads CSV times as UTC. We want US Prime Time.
-# 01:00 UTC = 8:00 PM EST (New York)
-# 04:00 UTC = 8:00 PM PST (Los Angeles)
-# 13:00 UTC = 8:00 AM EST (New York Morning)
 SCHEDULE_HOURS = [1, 4, 13] 
 
 # --- SEO BOARD MAPPING ---
 BOARD_MAP = {
-    # Genshin Impact
+    "makima": "Chainsaw Man: Makima & Power",
     "ayaka": "Genshin Impact: Wallpapers & Art",
     "citlali": "Genshin Impact: Wallpapers & Art",
     "furina": "Genshin Impact: Wallpapers & Art",
@@ -33,17 +31,11 @@ BOARD_MAP = {
     "keqing": "Genshin Impact: Wallpapers & Art",
     "mona": "Genshin Impact: Wallpapers & Art",
     "noelle": "Genshin Impact: Wallpapers & Art",
-    
-    # Oshi no Ko
     "akane": "Oshi no Ko: Ruby, Akane & Kana",
     "kana": "Oshi no Ko: Ruby, Akane & Kana",
     "ruby": "Oshi no Ko: Ruby, Akane & Kana",
-    
-    # Naruto
     "hinata": "Naruto Shippuden: Hinata & Sakura",
     "sakura": "Naruto Shippuden: Hinata & Sakura",
-    
-    # Specific Character Boards
     "zerotwo": "Zero Two | Darling in the Franxx",
     "yor": "Spy x Family: Yor Forger Aesthetic",
     "shinobu": "Demon Slayer: Shinobu & Art",
@@ -51,38 +43,35 @@ BOARD_MAP = {
     "rukia": "Bleach Anime: Rukia & Art",
     "mikasa": "Attack on Titan: Mikasa Aesthetic",
     "fern": "Frieren: Beyond Journey's End",
-    
-    # The "RomCom" Group
     "mai": "Anime Waifu Wallpapers 4K",
     "marin": "Anime Waifu Wallpapers 4K",
     "chizuru": "Anime Waifu Wallpapers 4K",
-    
-    # Fallback
     "default": "Anime Waifu Wallpapers 4K"
 }
 
-# --- EXPANDED TITLE TEMPLATES (20+ Options) ---
+# --- SAFE TITLE TEMPLATES (Sanitized for Pinterest) ---
+# Removed "Unrestricted", "Waifu", "NSFW" keywords to prevent shadowbans.
 TITLE_TEMPLATES = [
-    "{char} 4K Wallpaper | Unrestricted AI Art",
+    "{char} 4K Wallpaper | Stunning AI Art",
     "{char} Aesthetic Art | High Quality",
-    "Best {char} AI Generated Art (4K)",
+    "Best {char} Generated Art (4K)",
     "{char} Portrait | Anime Waifu Aesthetic",
     "{char} Wallpaper | {series} Art",
-    "Unrestricted {char} Fan Art | AI Gen",
+    "Stunning {char} Fan Art | AI Gen",
     "{char} Best PFP | High Res",
-    "Stunning {char} Wallpaper (4K)",
-    "{char} {series} | AI Fan Art",
+    "Beautiful {char} Wallpaper (4K)",
+    "{char} {series} | Fan Art",
     "Cute {char} Profile Picture | HD",
-    "{char} Digital Art | Unrestricted",
-    "Best AI Art of {char} | {series}",
+    "{char} Digital Art | High Quality",
+    "Best Art of {char} | {series}",
     "{char} Desktop Wallpaper | 4K Anime",
     "{char} Mobile Wallpaper | Aesthetic",
-    "Daily {char} Art | AI Generated",
-    "{char} Waifu Edition | High Quality",
+    "Daily {char} Art | Generated",
+    "{char} Fanart Edition | High Quality",
     "Top Tier {char} Art | {series}",
-    "{char} Concept Art | AI Gen",
+    "{char} Concept Art | Gen Art",
     "Beautiful {char} Portrait (4K)",
-    "{char} Anime Style | Unrestricted"
+    "{char} Anime Style | Aesthetic"
 ]
 
 # --- FUNCTIONS ---
@@ -93,6 +82,8 @@ def get_sent_log():
         return set(line.strip() for line in f)
 
 def update_sent_log(filename):
+    # Ensure directory exists before writing
+    os.makedirs(os.path.dirname(TRACKER_FILE), exist_ok=True)
     with open(TRACKER_FILE, "a") as f:
         f.write(f"{filename}\n")
 
@@ -135,7 +126,6 @@ def get_character_info(filename):
         
     return detected_char, target_board, series_name
 
-# Global set to track used titles in this run
 used_titles_registry = set()
 
 def generate_unique_seo_data(char_name, series_name):
@@ -155,11 +145,12 @@ def generate_unique_seo_data(char_name, series_name):
     
     used_titles_registry.add(title)
     
-    desc = (f"High quality, unrestricted AI art of {char_name} from {series_name}. "
-            f"Stunning 4K anime wallpaper, aesthetic pfp, and character design. "
-            f"Generate your own anime characters here. 🔗 #AIArt #Anime #Waifu #{char_name.replace(' ', '')}")
+    # Safe Description
+    desc = (f"High quality art of {char_name} from {series_name}. "
+        f"Generated with Anione. "  # <--- Added Safe Mention
+        f"Stunning 4K anime wallpaper... 🔗 #Anime #Art")
     
-    keywords = f"anime, ai art, waifu, {char_name}, {series_name}, wallpaper, 4k, aesthetic, digital art, pfp"
+    keywords = f"anime, art, {char_name}, {series_name}, wallpaper, 4k, aesthetic, digital art, pfp"
     
     if len(title) > 100: title = title[:97] + "..."
     if len(desc) > 500: desc = desc[:497] + "..."
@@ -167,9 +158,11 @@ def generate_unique_seo_data(char_name, series_name):
     return title, desc, keywords
 
 def generate_unique_link():
-    # Appends &v=RANDOM to URL to bypass spam filters
     random_id = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-    return f"{LINK_URL_BASE}&v={random_id}"
+    if "?" in LINK_URL_BASE:
+        return f"{LINK_URL_BASE}&v={random_id}"
+    else:
+        return f"{LINK_URL_BASE}?v={random_id}"
 
 def get_schedule_slots(total_images):
     slots = []
@@ -182,31 +175,53 @@ def get_schedule_slots(total_images):
         current += datetime.timedelta(days=1)
     return slots
 
-# --- MAIN ---
-
 def main():
-    print("--- Pinterest Content Engine (Bypass Edition) ---")
+    print("--- Pinterest Content Engine (Safe Root-Only Edition) ---")
     
     if not os.path.exists(IMAGES_FOLDER):
         print(f"Error: Folder '{IMAGES_FOLDER}' not found.")
         return
 
     sent_files = get_sent_log()
-    all_files = [f for f in os.listdir(IMAGES_FOLDER) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.webp'))]
-    new_files = [f for f in all_files if f not in sent_files]
+    
+    # --- STRICT FILTERING LOGIC ---
+    new_files = []
+    
+    # 1. List only immediate items in the folder (No Walk)
+    items = os.listdir(IMAGES_FOLDER)
+    
+    for item in items:
+        full_path = os.path.join(IMAGES_FOLDER, item)
+        
+        # 2. Skip items starting with '.' (Hidden files/folders)
+        if item.startswith('.'):
+            continue
+            
+        # 3. Skip directories (Only files allowed)
+        if not os.path.isfile(full_path):
+            continue
+            
+        # 4. Check Extension
+        if item.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
+            if item not in sent_files:
+                new_files.append(item)
+    
     random.shuffle(new_files)
 
     if not new_files:
         print("✅ No new files to process!")
         return
 
-    print(f"🚀 Found {len(new_files)} new images. Processing...")
+    print(f"🚀 Found {len(new_files)} new images in root folder. Processing...")
     
     headers = ["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"]
     
     schedule_slots = get_schedule_slots(len(new_files))
     slot_index = 0
     success_count = 0
+
+    # Ensure output directory exists
+    os.makedirs(os.path.dirname(OUTPUT_CSV), exist_ok=True)
 
     with open(OUTPUT_CSV, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
@@ -217,8 +232,6 @@ def main():
             char_name, board_name, series_name = get_character_info(filename)
             
             title, desc, keywords = generate_unique_seo_data(char_name, series_name)
-            
-            # GENERATE UNIQUE LINK FOR EVERY PIN
             unique_link = generate_unique_link()
             
             print(f"[{slot_index+1}/{len(new_files)}] {char_name}")
@@ -239,8 +252,8 @@ def main():
             else:
                 print("   ❌ Skipping file due to upload failure.")
 
-    print(f"\n✅ DONE! Generated {success_count} unique Pins in '{OUTPUT_CSV}'.")
-    print("👉 Upload this file. The 'Duplicate Pin Link' error should now be resolved.")
+    print(f"\n✅ DONE! Generated {success_count} Pins in '{OUTPUT_CSV}'.")
+    print("👉 Upload this to Pinterest.")
 
 if __name__ == "__main__":
     main()
