@@ -57,6 +57,7 @@ TAG_DB = {
     "mirajane": "#MirajaneStrauss #ミラジェーン・ストラウス #FairyTail #フェアリーテイル #SheDevil #魔人 #AIイラスト",
     "misty": "#Misty #カスミ #Pokemon #ポケモン #PokeGirl #ポケ女 #AIイラスト",
     "mitsuri": "#MitsuriKanroji #甘露寺蜜璃 #DemonSlayer #鬼滅の刃 #KimetsuNoYaiba #恋柱 #AIイラスト",
+    "machi": "#machi #hunterxhunter #hxh #anione #aiart",
     
     # --- N ---
     "nami": "#Nami #ナミ #OnePiece #ワンピース #CatBurglar #泥棒猫 #AIイラスト",
